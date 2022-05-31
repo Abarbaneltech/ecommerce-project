@@ -1,13 +1,22 @@
+// default imports
 const express = require("express");
 const mongoose = require("mongoose");
 const mongoConnection = require("./config/mongoose-config");
+const productsRouter = require("./routes/product-route");
 require("dotenv").config();
 
+// mongo connection
 mongoConnection();
-const app = express();
-app.use(express.json());
 
 const PORT = process.env.PORT || 8000;
+const app = express();
+
+// default middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// routes middlewares
+app.use("/products", productsRouter);
 
 mongoose.connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
