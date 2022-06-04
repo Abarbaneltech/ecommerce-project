@@ -6,11 +6,11 @@ const mongoose = require("mongoose");
 const productsRouter = require("./routes/product-route");
 require("dotenv").config();
 
-const SneaksAPI = require("sneaks-api");
-const sneaks = new SneaksAPI();
-sneaks.getProducts("Reebok Club", 10, function (err, products) {
-  console.log(products);
-});
+// const SneaksAPI = require("sneaks-api");
+// const sneaks = new SneaksAPI();
+// sneaks.getProducts("Travis Scott", 10, function (err, products) {
+//   console.log(products);
+// });
 
 // mongo connection
 mongoConnection();
