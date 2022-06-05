@@ -3,6 +3,7 @@ import { useStyles } from "./styles"
 import {useSelector, useDispatch} from 'react-redux';
 import { getAllProducts } from "../../redux/products/productsSlice";
 
+
 const Header = () => {
 
   const classes = useStyles()
@@ -20,9 +21,7 @@ const Header = () => {
 
 
   return (
-    <div className={`header-container ${classes.div}`}>
-
-    </div>
+    <div className={`header-container ${classes.div}`}></div>
   )
 }
 export default Header

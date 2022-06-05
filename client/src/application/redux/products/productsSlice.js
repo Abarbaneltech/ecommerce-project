@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_LINK = process.env.SNEAKERS_API;
+const API_LINK = process.env.REACT_APP_SNEAKERS_API;
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (args, { getState }) => {
     try {
       const config = {
         method: "GET",
-        // url: `${API_LINK}/products`,
-        url: "http://localhost:8000/products",
+        url: `${API_LINK}/products`,
       };
       const response = await axios(config);
       return response.data;

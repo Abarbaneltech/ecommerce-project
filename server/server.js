@@ -1,14 +1,15 @@
+require("dotenv").config();
 // default imports
 const express = require("express");
-const mongoConnection = require("./config/mongoose-config");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
+const mongoConnection = require("./config/mongoose-config");
 const productsRouter = require("./routes/product-route");
-require("dotenv").config();
 
 // const SneaksAPI = require("sneaks-api");
 // const sneaks = new SneaksAPI();
-// sneaks.getProducts("Travis Scott", 10, function (err, products) {
+// sneaks.getProducts("OFF-WHITE AIR MAX", 10, function (err, products) {
 //   console.log(products);
 // });
 
