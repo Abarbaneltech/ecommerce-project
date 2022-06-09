@@ -7,12 +7,6 @@ const mongoose = require("mongoose");
 const mongoConnection = require("./config/mongoose-config");
 const productsRouter = require("./routes/product-route");
 
-// const SneaksAPI = require("sneaks-api");
-// const sneaks = new SneaksAPI();
-// sneaks.getProducts("OFF-WHITE AIR MAX", 10, function (err, products) {
-//   console.log(products);
-// });
-
 // mongo connection
 mongoConnection();
 
@@ -38,3 +32,9 @@ mongoose.connection.once("open", () => {
     console.log(`Server is running at port: ${PORT}`);
   });
 });
+
+// const SneaksAPI = require("sneaks-api");
+// const sneaks = new SneaksAPI();
+// sneaks.getProducts("Nite Jogger", 10, function (err, products) {
+//   console.log(products);
+// });

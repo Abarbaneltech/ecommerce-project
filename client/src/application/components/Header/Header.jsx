@@ -9,15 +9,11 @@ const Header = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  const {products} = useSelector((state) => state.products)
+  // const {products} = useSelector((state) => state.products)
 
-  useEffect(() => {
-    dispatch(getAllProducts())
-  }, [])
-
-  useEffect(() => {
-    console.log(products)
-  })
+  // useEffect(() => {
+  //   dispatch(getAllProducts())
+  // }, [])
 
 
   return (

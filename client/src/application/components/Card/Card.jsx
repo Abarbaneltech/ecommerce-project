@@ -6,21 +6,20 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-export default function MediaCard() {
+export default function MediaCard({id, name, brand, image, price, color}) {
   return (
-    <Card sx={{ maxWidth: 300 }}>
+    <Card sx={{ maxWidth: 270 }}>
       <CardMedia
         component="img"
         height="140"
-        image="https://images.stockx.com/images/Nike-Air-Max-90-Off-White-Desert-Ore-Product.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&trim=color&q=90&dpr=2&updated_at=1607657302"
-        alt="green iguana"
+        image={image}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {brand}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
+          {name}
         </Typography>
       </CardContent>
       <CardActions>

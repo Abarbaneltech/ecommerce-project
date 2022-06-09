@@ -18,8 +18,28 @@ export const getAllProducts = createAsyncThunk(
   }
 );
 
+export const getProductByBrand = createAsyncThunk(
+  "products/getProductByBrand",
+  async (brand, { getState }) => {
+    try {
+      const config = {
+        method: "POST",
+        url: `${API_LINK}/products/search`,
+        data: {
+          brand: brand,
+        },
+      };
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   products: [],
+  brand: [],
   status: "idle",
 };
 
@@ -27,6 +47,17 @@ const productsSlice = createSlice({
   name: "sneakers",
   initialState,
   extraReducers: {
+    [getProductByBrand.pending]: state => {
+      state.status = "loading";
+    },
+    [getProductByBrand.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      if (payload === state.brand) return;
+      state.brand = [...state.brand, payload];
+    },
+    [getProductByBrand.rejected]: state => {
+      state.status = "failed";
+    },
     [getAllProducts.pending]: state => {
       state.status = "loading";
     },

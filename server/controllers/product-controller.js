@@ -9,6 +9,11 @@ const getAllProducts = async () => {
   }
 };
 
+const getProductByBrand = async brand => {
+  const findProduct = await Product.find({ brand: brand });
+  return findProduct;
+};
+
 const addProduct = async product => {
   const newProduct = new Product(product);
   try {
@@ -28,4 +33,9 @@ const deleteProduct = async id => {
   }
 };
 
-module.exports = { getAllProducts, addProduct, deleteProduct };
+module.exports = {
+  getAllProducts,
+  addProduct,
+  deleteProduct,
+  getProductByBrand,
+};
