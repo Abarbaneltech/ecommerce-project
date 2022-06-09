@@ -1,11 +1,16 @@
 require("dotenv").config();
 // default imports
+const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
+const session = require("express-session");
 
+// config imports
 const mongoConnection = require("./config/mongoose-config");
+
+// routes imports
 const productsRouter = require("./routes/product-route");
+const authRouter = require("./routes/auth-route");
 
 // mongo connection
 mongoConnection();
@@ -16,15 +21,19 @@ const app = express();
 // default middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 
-// routes middlewares
 app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:3000",
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    resave: true,
   })
 );
+
+// routes middlewares
 app.use("/products", productsRouter);
+app.use("/auth", authRouter);
 
 mongoose.connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
