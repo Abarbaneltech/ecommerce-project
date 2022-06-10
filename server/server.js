@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+const passport = require("passport");
 
 // config imports
 const mongoConnection = require("./config/mongoose-config");
@@ -30,6 +31,11 @@ app.use(
     resave: true,
   })
 );
+
+// passport middlewares
+app.use(passport.initialize());
+app.use(passport.session());
+require("./config/auth-config")(passport);
 
 // routes middlewares
 app.use("/products", productsRouter);

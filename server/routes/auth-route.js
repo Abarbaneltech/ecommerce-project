@@ -22,4 +22,17 @@ router.post("/register", async (req, res) => {
   });
 });
 
+router.post("/login", async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.json({ message: "No User Exists" });
+    else {
+      req.logIn(user, err => {
+        if (err) throw err;
+        res.json({ message: "Successfully Authenticated!" });
+      });
+    }
+  })(req, res, next);
+});
+
 module.exports = router;
