@@ -38,10 +38,27 @@ export const login = createAsyncThunk(
   }
 );
 
+export const checkAuth = createAsyncThunk(
+  "/auth/checkAuth",
+  async (args, { getState }) => {
+    try {
+      const config = {
+        method: "GET",
+        url: `${API_LINK}/auth/check-auth`,
+        withCredentials: true,
+      };
+      const response = await axios(config);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   status: "idle",
   user: "",
-  isOnUserId: "",
   isAuth: false,
 };
 
@@ -54,7 +71,6 @@ const authSlice = createSlice({
     },
     [register.fulfilled]: (state, { payload }) => {
       state.status = "success";
-      console.log(payload);
       state.user = payload.user;
       state.isAuth = payload.isAuth;
     },
@@ -69,9 +85,20 @@ const authSlice = createSlice({
       console.log(payload);
       state.user = payload.user;
       state.isAuth = payload.isAuth;
-      state.isOnUserId = payload.isOnUserId;
     },
     [login.rejected]: state => {
+      state.status = "failed";
+    },
+    [checkAuth.pending]: state => {
+      state.status = "loading";
+    },
+    [checkAuth.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      console.log(payload);
+      state.user = payload.user;
+      state.isAuth = payload.isAuth;
+    },
+    [checkAuth.rejected]: state => {
       state.status = "failed";
     },
   },

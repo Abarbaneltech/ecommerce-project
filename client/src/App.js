@@ -12,6 +12,7 @@ function App() {
     <BrowserRouter>
       <div className="sneakers-ecommerce">
         <CssBaseline />
+        <Navigation />
         <Routes>
           <Route path={"/register"} element={<Register />} />
           <Route path={"/login"} element={<Login />} />
@@ -20,7 +21,6 @@ function App() {
             path="/"
             element={
               <>
-                <Navigation />
                 <Home />
                 <Footer />
               </>

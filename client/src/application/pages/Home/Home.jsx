@@ -11,12 +11,16 @@ const Homepage = () => {
 
   const dispatch = useDispatch();
   const {brand} = useSelector(state => state.products);
+  const {auth} = useSelector(state => state)
+
   
   useEffect(() => {
     brands.map(brand => dispatch(getProductByBrand(brand)))
   }, []);
 
-  console.log(brand)
+  useEffect(() => {
+    console.log(auth)
+  }, [auth.isAuth])
 
  
 

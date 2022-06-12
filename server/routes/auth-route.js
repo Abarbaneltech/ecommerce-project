@@ -38,4 +38,12 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get("/check-auth", (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log(req.user);
+  } else {
+    res.json({ isAuth: false });
+  }
+});
+
 module.exports = router;
