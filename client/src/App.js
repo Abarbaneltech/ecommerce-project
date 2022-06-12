@@ -1,16 +1,34 @@
-import MediaCard from "./application/components/Card/Card";
-import Footer from "./application/components/Footer/Footer";
-import Header from "./application/components/Header/Header";
+// components imports
 import Navigation from "./application/components/Navigation/Navigation";
-import Homepage from "./application/pages/Homepage/Homepage";
+import Home from "./application/pages/Home/Home";
+import Footer from "./application/components/Footer/Footer";
+import { CssBaseline } from "@mui/material";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Register from "./application/pages/Register/Register";
+import Login from "./application/pages/Login/Login";
 
 function App() {
   return (
-    <div className="sneakers-ecommerce">
-      <Navigation />
-      <Homepage />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="sneakers-ecommerce">
+        <CssBaseline />
+        <Routes>
+          <Route path={"/register"} element={<Register />} />
+          <Route path={"/login"} element={<Login />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <Navigation />
+                <Home />
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

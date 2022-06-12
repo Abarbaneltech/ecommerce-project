@@ -17,7 +17,9 @@ router.post("/register", async (req, res) => {
         password: hashedPassword,
         email: req.body.email,
       });
-      res.status(201).json({ message: "New user registered", newUser });
+      res
+        .status(201)
+        .json({ message: "New user registered", isAuth: true, user: newUser });
     }
   });
 });
@@ -25,11 +27,12 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
-    if (!user) res.json({ message: "No User Exists" });
+    if (!user) res.json({ message: "Wrong Information" });
     else {
       req.logIn(user, err => {
         if (err) throw err;
-        res.json({ message: "Successfully Authenticated!" });
+        // console.log(req.user);
+        res.json({ isAuth: true, user: req.user, isOnUserId: req.user._id });
       });
     }
   })(req, res, next);

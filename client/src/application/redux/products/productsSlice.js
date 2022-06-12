@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_LINK = process.env.REACT_APP_SNEAKERS_API;
+const API_LINK = process.env.REACT_APP_SNEAKERS_URL;
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
   async (args, { getState }) => {
@@ -52,7 +52,6 @@ const productsSlice = createSlice({
     },
     [getProductByBrand.fulfilled]: (state, { payload }) => {
       state.status = "success";
-      if (payload === state.brand) return;
       state.brand = [...state.brand, payload];
     },
     [getProductByBrand.rejected]: state => {
