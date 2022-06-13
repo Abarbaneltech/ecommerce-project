@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
 
 router.post(`/search`, async (req, res) => {
   const products = await getProductByBrand(req.body.brand);
-  console.log(products);
   res.status(200).json({ message: `${req.body.brand}`, products });
 });
 

@@ -52,6 +52,7 @@ const productsSlice = createSlice({
     },
     [getProductByBrand.fulfilled]: (state, { payload }) => {
       state.status = "success";
+      if (state.brand.length === 3) return;
       state.brand = [...state.brand, payload];
     },
     [getProductByBrand.rejected]: state => {

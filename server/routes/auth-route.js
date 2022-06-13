@@ -38,9 +38,32 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+// router.post("/logout", async (req, res, next) => {
+//   // req.session.destroy(args => {
+//   req.logout(function (err) {
+//     // if (err) return next(err);
+//     res.redirect("/");
+//     res.json({ isAuth: false });
+//   });
+//   // });
+// });
+
+router.post("/logout", (req, res, next) => {
+  console.log("logout:", req.user);
+  req.logout(err => {
+    if (err) {
+      return next(err);
+    }
+    req.session.destroy(err => {
+      res.clearCookie("connect.sid", { path: "/" });
+      res.json({ isAuth: false });
+    });
+  });
+});
+
 router.get("/check-auth", (req, res) => {
   if (req.isAuthenticated()) {
-    console.log(req.user);
+    res.json({ isAuth: true, user: req.user });
   } else {
     res.json({ isAuth: false });
   }

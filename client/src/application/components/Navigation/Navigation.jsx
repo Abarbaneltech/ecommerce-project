@@ -15,21 +15,22 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/auth/authSlice";
 
 const pages = ["Store"];
-const loggedIn = ["Profile", "Account", "Logout"];
+const loggedIn = ["Account", "Logout"];
 const loggedOut = ["Sign up", "Sign In"];
+
 
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+  
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { isAuth } = useSelector(state => state.auth);
-  console.log(isAuth);
+  
+  const { isAuth, user } = useSelector(state => state.auth);
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -53,11 +54,13 @@ const Navigation = () => {
         case 'PROFILE':
         return navigate('/profile')
         case 'LOGOUT':
-          return null
+          return dispatch(logout())
       default:
         break;
     }
   }
+
+
 
   const handleLoggedOutNavigator = (value) => {
     switch (value) {
@@ -145,6 +148,7 @@ const Navigation = () => {
 
             {isAuth ? (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
+                <Typography sx={{mr: 4}}>Welcome {user.full_name}</Typography>
                 {loggedIn.map(page => (
                   <Button onClick={(e) => handleLoggedInNavigator(e.target.innerText)} key={page} sx={{ my: 2, color: "white" }}>
                     {page}

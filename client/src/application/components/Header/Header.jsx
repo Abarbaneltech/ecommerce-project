@@ -9,15 +9,9 @@ const Header = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
 
-  // const {products} = useSelector((state) => state.products)
-
-  // useEffect(() => {
-  //   dispatch(getAllProducts())
-  // }, [])
-
 
   return (
-    <div className={`header-container ${classes.div}`}></div>
+    <div className={`header-container ${classes.header}`}></div>
   )
 }
 export default Header

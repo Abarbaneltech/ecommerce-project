@@ -11,23 +11,22 @@ const Homepage = () => {
 
   const dispatch = useDispatch();
   const {brand} = useSelector(state => state.products);
-  const {auth} = useSelector(state => state)
+  const {isAuth} = useSelector(state => state.auth)
 
-  
   useEffect(() => {
     brands.map(brand => dispatch(getProductByBrand(brand)))
   }, []);
 
-  useEffect(() => {
-    console.log(auth)
-  }, [auth.isAuth])
+
 
  
 
   return (
     <div className="homepage-container">
         <Header/>
+        <div className="recommandation-main-container">
         {brand.length > 0 && brand.map(brand => <Recommandation key={brand.message} products={brand.products} message={brand.message}/>)}
+        </div>
     </div>
   )
 }

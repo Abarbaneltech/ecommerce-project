@@ -38,6 +38,23 @@ export const login = createAsyncThunk(
   }
 );
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (args, { getState }) => {
+    try {
+      const config = {
+        method: "POST",
+        url: `${API_LINK}/auth/logout`,
+        withCredentials: true,
+      };
+      const response = await axios(config);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const checkAuth = createAsyncThunk(
   "/auth/checkAuth",
   async (args, { getState }) => {
@@ -48,7 +65,6 @@ export const checkAuth = createAsyncThunk(
         withCredentials: true,
       };
       const response = await axios(config);
-      console.log(response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -59,7 +75,7 @@ export const checkAuth = createAsyncThunk(
 const initialState = {
   status: "idle",
   user: "",
-  isAuth: false,
+  isAuth: undefined,
 };
 
 const authSlice = createSlice({
@@ -87,6 +103,18 @@ const authSlice = createSlice({
       state.isAuth = payload.isAuth;
     },
     [login.rejected]: state => {
+      state.status = "failed";
+    },
+    [logout.pending]: state => {
+      state.status = "loading";
+    },
+    [logout.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      console.log(payload);
+      state.user = "";
+      state.isAuth = payload.isAuth;
+    },
+    [logout.rejected]: state => {
       state.status = "failed";
     },
     [checkAuth.pending]: state => {

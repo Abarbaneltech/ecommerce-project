@@ -22,7 +22,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {auth} = useSelector(state => state)
+  const {isAuth} = useSelector(state => state.auth)
 
   const [user, setUser] = useState({
     username: "",
@@ -36,10 +36,10 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if(auth.isAuth === true) {
+    if(isAuth === true) {
         navigate('/')
     }
-  }, [auth.isAuth]);
+  }, [isAuth]);
 
   return (
     <ThemeProvider theme={theme}>

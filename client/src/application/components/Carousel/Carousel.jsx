@@ -1,7 +1,4 @@
-import { Fragment, useEffect } from "react";
 import Carousel from "react-grid-carousel";
-import { useDispatch, useSelector } from "react-redux";
-import { getProductByBrand } from "../../redux/products/productsSlice";
 import MediaCard from "../Card/Card";
 
 const responsiveLayout = [
