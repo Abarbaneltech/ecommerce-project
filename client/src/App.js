@@ -9,6 +9,7 @@ import Login from "./application/pages/Login/Login";
 import { useEffect } from "react";
 import { checkAuth } from "./application/redux/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Store from "./application/pages/Store/Store";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,8 +26,8 @@ function App() {
         <Routes>
           <Route path={"/register"} element={<Register />} />
           <Route path={"/login"} element={<Login />} />
+          <Route path={"/store"} element={<Store />} />
           <Route
-            exact
             path="/"
             element={
               <>

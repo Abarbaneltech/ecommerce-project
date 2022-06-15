@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useStyles } from "./styles";
 import logo from "../../../partials/images/sneakers-transparent.png";
 import AppBar from "@mui/material/AppBar";
@@ -14,23 +14,24 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/auth/authSlice";
+import { CircularProgress } from "@mui/material";
 
 const pages = ["Store"];
 const loggedIn = ["Account", "Logout"];
 const loggedOut = ["Sign up", "Sign In"];
 
-
 const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const { isAuth, user } = useSelector(state => state.auth);
+  const location = useLocation()
+
+  const { isAuth, user, status } = useSelector(state => state.auth);
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -47,34 +48,32 @@ const Navigation = () => {
     setAnchorElUser(null);
   };
 
-  const handleLoggedInNavigator = (value) => {
+  const handleLoggedInNavigator = value => {
     switch (value) {
-      case 'ACCOUNT':
-        return navigate('/account')
-        case 'PROFILE':
-        return navigate('/profile')
-        case 'LOGOUT':
-          return dispatch(logout())
+      case "ACCOUNT":
+        return navigate("/account");
+      case "PROFILE":
+        return navigate("/profile");
+      case "LOGOUT":
+        return dispatch(logout());
       default:
         break;
     }
-  }
+  };
 
-
-
-  const handleLoggedOutNavigator = (value) => {
+  const handleLoggedOutNavigator = value => {
     switch (value) {
-      case 'SIGN UP':
-        return navigate('/register')
-        case 'SIGN IN':
-        return navigate('/login')
+      case "SIGN UP":
+        return navigate("/register");
+      case "SIGN IN":
+        return navigate("/login");
       default:
         break;
     }
-  }
+  };
 
   return (
-    <div className={`navigation-container`}>
+    <div className={`${location.pathname === '/store' ? classes.container : null} navigation-container`}>
       <AppBar className={classes.navbar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -148,20 +147,36 @@ const Navigation = () => {
 
             {isAuth ? (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-                <Typography sx={{mr: 4}}>Welcome {user.full_name}</Typography>
+                <Button sx={{ my: 2, color: "white" }}>{`Welcome ${user.full_name}`.toUpperCase()}</Button>
                 {loggedIn.map(page => (
-                  <Button onClick={(e) => handleLoggedInNavigator(e.target.innerText)} key={page} sx={{ my: 2, color: "white" }}>
+                  <Button
+                    onClick={e => handleLoggedInNavigator(e.target.innerText)}
+                    key={page}
+                    sx={{ my: 2, color: "white" }}
+                  >
                     {page}
                   </Button>
                 ))}
               </Box>
             ) : (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-                {loggedOut.map(page => (
-                  <Button onClick={(e) => handleLoggedOutNavigator(e.target.innerText)} key={page} sx={{ my: 2, color: "white" }}>
-                    {page}
-                  </Button>
-                ))}
+                {status === "loading" ? (
+                  <CircularProgress/>
+                ) : (
+                  <Fragment>
+                    {loggedOut.map(page => (
+                      <Button
+                        onClick={e =>
+                          handleLoggedOutNavigator(e.target.innerText)
+                        }
+                        key={page}
+                        sx={{ my: 2, color: "white" }}
+                      >
+                        {page}
+                      </Button>
+                    ))}
+                  </Fragment>
+                )}
               </Box>
             )}
             <Box sx={{ flexGrow: 0, display: { md: "none" } }}>
@@ -186,15 +201,33 @@ const Navigation = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {isAuth ? loggedIn.map(setting => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography onClick={(e) => handleLoggedInNavigator(e.target.innerText)} textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                )) : loggedOut.map(setting => (
-                  <MenuItem key={setting}>
-                  <Typography onClick={(e) => handleLoggedOutNavigator(e.target.innerText.toUpperCase())} textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                {isAuth
+                  ? loggedIn.map(setting => (
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography
+                          onClick={e =>
+                            handleLoggedInNavigator(e.target.innerText)
+                          }
+                          textAlign="center"
+                        >
+                          {setting}
+                        </Typography>
+                      </MenuItem>
+                    ))
+                  : loggedOut.map(setting => (
+                      <MenuItem key={setting}>
+                        <Typography
+                          onClick={e =>
+                            handleLoggedOutNavigator(
+                              e.target.innerText.toUpperCase()
+                            )
+                          }
+                          textAlign="center"
+                        >
+                          {setting}
+                        </Typography>
+                      </MenuItem>
+                    ))}
               </Menu>
             </Box>
           </Toolbar>

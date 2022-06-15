@@ -16,9 +16,6 @@ const Homepage = () => {
   useEffect(() => {
     brands.map(brand => dispatch(getProductByBrand(brand)))
   }, []);
-
-
-
  
 
   return (

@@ -1,6 +1,9 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
+  container: {
+    height: "100px",
+  },
   navbar: {
     position: "fixed !important",
     background: "transparent !important",
