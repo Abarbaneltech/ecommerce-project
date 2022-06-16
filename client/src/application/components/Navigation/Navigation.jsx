@@ -73,7 +73,7 @@ const Navigation = () => {
   };
 
   return (
-    <div className={`${location.pathname === '/store' ? classes.container : null} navigation-container`}>
+    <div className={`${location.pathname === '/' ? classes.navbar : classes.container} navigation-container`}>
       <AppBar className={classes.navbar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -84,6 +84,7 @@ const Navigation = () => {
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
+                
               }}
             >
               <img src={logo} className={classes.logo} />
@@ -137,7 +138,7 @@ const Navigation = () => {
               {pages.map(page => (
                 <Button
                   key={page}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, display: "block", color: location.pathname === '/' ? 'white' : 'black' }}
                   onClick={() => navigate("/store")}
                 >
                   {page}
@@ -147,12 +148,13 @@ const Navigation = () => {
 
             {isAuth ? (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-                <Button sx={{ my: 2, color: "white" }}>{`Welcome ${user.full_name}`.toUpperCase()}</Button>
+                <Button sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}>Have fun, {user.full_name}</Button>
                 {loggedIn.map(page => (
                   <Button
                     onClick={e => handleLoggedInNavigator(e.target.innerText)}
                     key={page}
-                    sx={{ my: 2, color: "white" }}
+                    sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}
+                    
                   >
                     {page}
                   </Button>
@@ -170,7 +172,7 @@ const Navigation = () => {
                           handleLoggedOutNavigator(e.target.innerText)
                         }
                         key={page}
-                        sx={{ my: 2, color: "white" }}
+                        sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}
                       >
                         {page}
                       </Button>
@@ -182,7 +184,7 @@ const Navigation = () => {
             <Box sx={{ flexGrow: 0, display: { md: "none" } }}>
               <Tooltip title="Open loggedIn">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircle style={{ fontSize: "30px", color: "white" }} />
+                  <AccountCircle style={{ fontSize: "30px", color: location.pathname === '/' ? 'white' : 'black' }} />
                 </IconButton>
               </Tooltip>
               <Menu
