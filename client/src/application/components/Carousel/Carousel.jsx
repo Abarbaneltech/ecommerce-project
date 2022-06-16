@@ -16,9 +16,9 @@ const CarouselComponent = ({message, products}) => {
     <div className="carousel-container" style={{width: '80%'}}>
       <h1>Best of - {message}</h1>
       <Carousel cols={4} rows={1} loop responsiveLayout={responsiveLayout}>
-      {products.map(item => (
-          <Carousel.Item key={item._id}>
-          <MediaCard name={item.name} brand={item.brand} image={item.image} price={item.price} color={item.color}/>
+      {products.map(product => (
+          <Carousel.Item key={product._id}>
+          <MediaCard name={product.name} brand={product.brand} image={product.image} price={product.price} color={product.colorway} id={product._id}/>
           </Carousel.Item>
       ))}
       </Carousel>

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { checkAuth } from "./application/redux/auth/authSlice";
 import { useDispatch } from "react-redux";
 import Store from "./application/pages/Store/Store";
+import Product from "./application/components/Product/Product";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ function App() {
               </>
             }
           />
+          <Route path={"/product/:id"} element={<Product />} />
         </Routes>
       </div>
     </BrowserRouter>
