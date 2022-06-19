@@ -27,12 +27,17 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
-    if (!user) res.json({ message: "Wrong Information" });
+    if (!user) return res.json({ message: "Wrong Information" });
+    if (info) return res.json({ info, isAuth: false });
     else {
       req.logIn(user, err => {
         if (err) throw err;
-        // console.log(req.user);
-        res.json({ isAuth: true, user: req.user, isOnUserId: req.user._id });
+        console.log(req.user);
+        return res.json({
+          isAuth: true,
+          user: req.user,
+          isOnUserId: req.user._id,
+        });
       });
     }
   })(req, res, next);

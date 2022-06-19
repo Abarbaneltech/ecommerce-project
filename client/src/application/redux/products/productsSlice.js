@@ -11,7 +11,7 @@ export const getAllProducts = createAsyncThunk(
         url: `${API_LINK}/products`,
       };
       const response = await axios(config);
-      return response.data;
+      return response.data.sort(() => 0.5 - Math.random());
     } catch (error) {
       console.log(error);
     }
