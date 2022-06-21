@@ -40,11 +40,12 @@ export const getProductByBrand = createAsyncThunk(
 const initialState = {
   products: [],
   brand: [],
+  filteredProducts: [],
   status: "idle",
 };
 
 const productsSlice = createSlice({
-  name: "sneakers",
+  name: "products",
   initialState,
   extraReducers: {
     [getProductByBrand.pending]: state => {
@@ -64,11 +65,26 @@ const productsSlice = createSlice({
     [getAllProducts.fulfilled]: (state, { payload }) => {
       state.status = "success";
       state.products = payload;
+      state.filteredProducts = [...payload];
     },
     [getAllProducts.rejected]: state => {
       state.status = "failed";
     },
   },
+  reducers: {
+    searchByName: (state, action) => {
+      const filteredProducts = state.products.filter(product =>
+        product.name.toLowerCase().includes(action.payload.toLowerCase())
+      );
+      return {
+        ...state,
+        filteredProducts:
+          action.payload.length > 0 ? filteredProducts : [...state.products],
+      };
+    },
+  },
 });
+
+export const productActions = productsSlice.actions;
 
 export default productsSlice.reducer;

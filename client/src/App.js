@@ -8,12 +8,15 @@ import Register from "./application/pages/Register/Register";
 import Login from "./application/pages/Login/Login";
 import { useEffect } from "react";
 import { checkAuth } from "./application/redux/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Store from "./application/pages/Store/Store";
 import Product from "./application/components/Product/Product";
+import Cart from "./application/components/Cart/Cart";
 
 function App() {
   const dispatch = useDispatch();
+
+  const cart = useSelector(state => state.cart);
 
   useEffect(() => {
     dispatch(checkAuth());
@@ -24,6 +27,7 @@ function App() {
       <div className="sneakers-ecommerce">
         <CssBaseline />
         <Navigation />
+        <Cart />
         <Routes>
           <Route path={"/register"} element={<Register />} />
           <Route path={"/login"} element={<Login />} />

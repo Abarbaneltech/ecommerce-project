@@ -8,6 +8,7 @@ export const useStyles = makeStyles({
     position: "fixed !important",
     background: "transparent !important",
     boxShadow: "0px 0px !important",
+    zIndex: 999,
   },
   logo: {
     marginRight: "10px",

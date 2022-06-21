@@ -1,22 +1,28 @@
 import { Box, Button, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
+import { addToCart } from "../../redux/cart/cartSlice";
 import { useStyles } from "./styles";
 
 
 function Product() {
 
     const {id} = useParams()
-    const {products, brand} = useSelector(state => state.products);
     const classes = useStyles()
+    const dispatch = useDispatch()
+
+    const {products, brand} = useSelector(state => state.products);
     let product = products.find(product => product._id === id)
 
     if(!product) { 
         let products = brand.filter(sneakers => sneakers.products.find(product => product._id === id))
         product = products[0].products.find(products => products._id === id)
     } 
-    console.log(product)
-
+    
+    const addToCartHandler = (product) => {
+      dispatch(addToCart(product))
+    }
+  
   return (
     <div className={`${classes.container} product-container`}> 
     <Box sx={{my: 3}}>
@@ -45,7 +51,7 @@ function Product() {
           </Grid>
           <Divider style={{height: '5px'}}/>
           <Grid container item xs={12} sx={{my:6}}>
-          <Button variant="contained" style={{width: '100%'}}>Add To Cart</Button>
+          <Button onClick={() => addToCartHandler(product)} variant="contained" style={{width: '100%'}}>Add To Cart</Button>
           </Grid>
         </Grid>
        </Grid>

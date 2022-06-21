@@ -16,7 +16,9 @@ import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/auth/authSlice";
-import { CircularProgress } from "@mui/material";
+import { Badge, CircularProgress } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { addToCart, cartHandler } from "../../redux/cart/cartSlice";
 
 const pages = ["Store"];
 const loggedIn = ["Account", "Logout"];
@@ -29,9 +31,10 @@ const Navigation = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const { isAuth, user, status } = useSelector(state => state.auth);
+  const { cartProducts } = useSelector(state => state.cart);
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -73,7 +76,11 @@ const Navigation = () => {
   };
 
   return (
-    <div className={`${location.pathname === '/' ? classes.navbar : classes.container} navigation-container`}>
+    <div
+      className={`${
+        location.pathname === "/" ? classes.navbar : classes.container
+      } navigation-container`}
+    >
       <AppBar className={classes.navbar}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -84,7 +91,6 @@ const Navigation = () => {
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
-                
               }}
             >
               <img src={logo} className={classes.logo} />
@@ -138,7 +144,11 @@ const Navigation = () => {
               {pages.map(page => (
                 <Button
                   key={page}
-                  sx={{ my: 2, display: "block", color: location.pathname === '/' ? 'white' : 'black' }}
+                  sx={{
+                    my: 2,
+                    display: "block",
+                    color: location.pathname === "/" ? "white" : "black",
+                  }}
                   onClick={() => navigate("/store")}
                 >
                   {page}
@@ -148,13 +158,32 @@ const Navigation = () => {
 
             {isAuth ? (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-                <Button sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}>Have fun, {user.full_name}</Button>
+                <Button
+                  sx={{
+                    my: 2,
+                    color: location.pathname === "/" ? "white" : "black",
+                  }}
+                >
+                  Have fun, {user.full_name}
+                </Button>
+                <Button
+                  sx={{
+                    my: 2,
+                    color: location.pathname === "/" ? "white" : "black",
+                  }}
+                >
+                  <Badge badgeContent={cartProducts.length} onClick={() => dispatch(cartHandler())} color="primary">
+                    <ShoppingCartIcon color="action" />
+                  </Badge>
+                </Button>
                 {loggedIn.map(page => (
                   <Button
                     onClick={e => handleLoggedInNavigator(e.target.innerText)}
                     key={page}
-                    sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}
-                    
+                    sx={{
+                      my: 2,
+                      color: location.pathname === "/" ? "white" : "black",
+                    }}
                   >
                     {page}
                   </Button>
@@ -163,7 +192,7 @@ const Navigation = () => {
             ) : (
               <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
                 {status === "loading" ? (
-                  <CircularProgress/>
+                  <CircularProgress />
                 ) : (
                   <Fragment>
                     {loggedOut.map(page => (
@@ -172,7 +201,10 @@ const Navigation = () => {
                           handleLoggedOutNavigator(e.target.innerText)
                         }
                         key={page}
-                        sx={{ my: 2, color: location.pathname === '/' ? 'white' : 'black' }}
+                        sx={{
+                          my: 2,
+                          color: location.pathname === "/" ? "white" : "black",
+                        }}
                       >
                         {page}
                       </Button>
@@ -184,7 +216,12 @@ const Navigation = () => {
             <Box sx={{ flexGrow: 0, display: { md: "none" } }}>
               <Tooltip title="Open loggedIn">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <AccountCircle style={{ fontSize: "30px", color: location.pathname === '/' ? 'white' : 'black' }} />
+                  <AccountCircle
+                    style={{
+                      fontSize: "30px",
+                      color: location.pathname === "/" ? "white" : "black",
+                    }}
+                  />
                 </IconButton>
               </Tooltip>
               <Menu
