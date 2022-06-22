@@ -84,7 +84,7 @@ const Store = () => {
       </Accordion>
       </Box>
         </Grid>
-        <Grid xs={6}>
+        <Grid item xs={6}>
         <div>
       {status === 'loading' ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size="5rem" /></div> : <Grid container spacing={4}>
         {filteredProducts.length === 0 ? <Grid item sx={3}><h1>No Results Found</h1></Grid> : filteredProducts.length > 0 && filteredProducts.map((product) => (

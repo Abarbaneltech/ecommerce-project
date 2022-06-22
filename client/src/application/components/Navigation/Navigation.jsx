@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useStyles } from "./styles";
 import logo from "../../../partials/images/sneakers-transparent.png";
 import AppBar from "@mui/material/AppBar";
@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/auth/authSlice";
 import { Badge, CircularProgress } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { addToCart, cartHandler } from "../../redux/cart/cartSlice";
+import { addToCart, cartHandler, getTotalPrice } from "../../redux/cart/cartSlice";
 
 const pages = ["Store"];
 const loggedIn = ["Account", "Logout"];
@@ -28,13 +28,18 @@ const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { isAuth, user, status } = useSelector(state => state.auth);
-  const { cartProducts } = useSelector(state => state.cart);
+  const { cartProducts, cartTotalQuantity, cartTotalAmount } = useSelector(state => state.cart);
+
+  useEffect(() => {
+    dispatch(getTotalPrice())
+}, [cartTotalAmount, cartTotalQuantity])
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -172,7 +177,7 @@ const Navigation = () => {
                     color: location.pathname === "/" ? "white" : "black",
                   }}
                 >
-                  <Badge badgeContent={cartProducts.length} onClick={() => dispatch(cartHandler())} color="primary">
+                  <Badge badgeContent={cartTotalQuantity} onClick={() => dispatch(cartHandler())} color="primary">
                     <ShoppingCartIcon color="action" />
                   </Badge>
                 </Button>

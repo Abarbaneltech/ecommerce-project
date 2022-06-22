@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Store from "./application/pages/Store/Store";
 import Product from "./application/components/Product/Product";
 import Cart from "./application/components/Cart/Cart";
+import { getTotalPrice } from "./application/redux/cart/cartSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuth());
+    dispatch(getTotalPrice());
   }, []);
 
   return (

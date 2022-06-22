@@ -1,7 +1,7 @@
 import { Box, Button, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom"
-import { addToCart } from "../../redux/cart/cartSlice";
+import { addToCart, getTotalPrice } from "../../redux/cart/cartSlice";
 import { useStyles } from "./styles";
 
 
@@ -21,6 +21,7 @@ function Product() {
     
     const addToCartHandler = (product) => {
       dispatch(addToCart(product))
+      dispatch(getTotalPrice())
     }
   
   return (
