@@ -33,6 +33,7 @@ router.post("/login", async (req, res, next) => {
       req.logIn(user, err => {
         if (err) throw err;
         console.log(req.user);
+        console.log(req);
         return res.json({
           isAuth: true,
           user: req.user,

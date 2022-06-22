@@ -28,19 +28,12 @@ const Store = () => {
     setInputValue('')
   }
 
-  useEffect(() => {
 
-  }, [radioGroupValue])
 
   const expandedHandler = () => {
     setExpanded(prev => !prev)
     console.log(expanded)
   }
-
-  const radioGroupHandler = () => {
-    // dispatch(productActions.searchByName(radioGroupValue))
-  }
-
 
 
   return (
@@ -66,7 +59,7 @@ const Store = () => {
           id="panel1a-header"
           onClick={expandedHandler}
         >
-          <Box sx={{display: 'flex', width: '100%', justifyContent: 'space-between', }}>
+          <Box sx={{ display: 'flex', width: '100%', justifyContent: 'space-between', }}>
             <p>Select Your Brand</p>
             <p>{expanded ? <ArrowDownwardIcon/> : <ArrowUpwardIcon/>}</p>
           </Box>
@@ -84,11 +77,11 @@ const Store = () => {
       </Accordion>
       </Box>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={12}>
         <div>
       {status === 'loading' ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size="5rem" /></div> : <Grid container spacing={4}>
         {filteredProducts.length === 0 ? <Grid item sx={3}><h1>No Results Found</h1></Grid> : filteredProducts.length > 0 && filteredProducts.map((product) => (
-          <Grid item xs={3}>
+          <Grid item sm={12}>
             <MediaCard name={product.name} brand={product.brand} image={product.image} price={product.price} color={product.colorway} id={product._id}/>
           </Grid>
         ))}
