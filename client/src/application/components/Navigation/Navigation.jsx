@@ -18,7 +18,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/auth/authSlice";
 import { Badge, CircularProgress } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { addToCart, cartHandler, getTotalPrice } from "../../redux/cart/cartSlice";
+import {
+  addToCart,
+  cartHandler,
+  getTotalPrice,
+} from "../../redux/cart/cartSlice";
 
 const pages = ["Store"];
 const loggedIn = ["Account", "Logout"];
@@ -28,18 +32,19 @@ const Navigation = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   const { isAuth, user, status } = useSelector(state => state.auth);
-  const { cartProducts, cartTotalQuantity, cartTotalAmount } = useSelector(state => state.cart);
+  const { cartProducts, cartTotalQuantity, cartTotalAmount } = useSelector(
+    state => state.cart
+  );
 
   useEffect(() => {
-    dispatch(getTotalPrice())
-}, [cartTotalAmount, cartTotalQuantity])
+    dispatch(getTotalPrice());
+  }, [cartTotalAmount, cartTotalQuantity]);
 
   const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
@@ -172,15 +177,19 @@ const Navigation = () => {
                   Have fun, {user.full_name}
                 </Button>
                 <Button
-                  sx={{
-                    my: 2,
-                    color: location.pathname === "/" ? "white" : "black",
-                  }}
-                >
-                  <Badge badgeContent={cartTotalQuantity} onClick={() => dispatch(cartHandler())} color="primary">
-                    <ShoppingCartIcon color="action" />
-                  </Badge>
-                </Button>
+                      sx={{
+                        my: 2,
+                        color: location.pathname === "/" ? "white" : "black",
+                      }}
+                    >
+                      <Badge
+                        badgeContent={cartTotalQuantity}
+                        onClick={() => dispatch(cartHandler())}
+                        color="primary"
+                      >
+                        <ShoppingCartIcon color="action" />
+                      </Badge>
+                    </Button>
                 {loggedIn.map(page => (
                   <Button
                     onClick={e => handleLoggedInNavigator(e.target.innerText)}
@@ -200,6 +209,20 @@ const Navigation = () => {
                   <CircularProgress />
                 ) : (
                   <Fragment>
+                    <Button
+                      sx={{
+                        my: 2,
+                        color: location.pathname === "/" ? "white" : "black",
+                      }}
+                    >
+                      <Badge
+                        badgeContent={cartTotalQuantity}
+                        onClick={() => dispatch(cartHandler())}
+                        color="primary"
+                      >
+                        <ShoppingCartIcon color="action" />
+                      </Badge>
+                    </Button>
                     {loggedOut.map(page => (
                       <Button
                         onClick={e =>
@@ -258,20 +281,37 @@ const Navigation = () => {
                         </Typography>
                       </MenuItem>
                     ))
+                    
                   : loggedOut.map(setting => (
+                    <Fragment>
                       <MenuItem key={setting}>
                         <Typography
                           onClick={e =>
                             handleLoggedOutNavigator(
                               e.target.innerText.toUpperCase()
-                            )
-                          }
-                          textAlign="center"
+                              )
+                            }
+                            textAlign="center"
                         >
                           {setting}
                         </Typography>
                       </MenuItem>
+                        </Fragment>
                     ))}
+                         <Button
+                      sx={{
+                        my: 2,
+                        color: location.pathname === "/" ? "white" : "black",
+                      }}
+                    >
+                      <Badge
+                        badgeContent={cartTotalQuantity}
+                        onClick={() => dispatch(cartHandler())}
+                        color="primary"
+                      >
+                        <ShoppingCartIcon color="action" />
+                      </Badge>
+                    </Button>
               </Menu>
             </Box>
           </Toolbar>

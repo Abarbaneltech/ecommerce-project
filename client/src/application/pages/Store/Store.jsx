@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography,  } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, CircularProgress, Divider, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography, useMediaQuery,  } from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
 import { useRef } from "react";
@@ -17,6 +17,8 @@ const Store = () => {
   const [expanded, setExpanded] = useState(true)
   const dispatch = useDispatch();
   const {products, status, filteredProducts} = useSelector(state => state.products);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   useEffect(() => {
     dispatch(getAllProducts())
@@ -40,7 +42,7 @@ const Store = () => {
     <div className="store-container">
       <Grid container>
         <Grid item xs={4} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-        <Box component="form" sx={{'& .MuiTextField-root': { m: 1, width: '35ch' }, marginBottom: '5em', width: '80%'}}>
+        <Box component="div" sx={{'& .MuiTextField-root': { m: 1, width: '35ch' }, marginBottom: '5em', display: 'flex', alignItems: 'center', marginRight: isSmallScreen ? 'auto' : null}}>
         <TextField
           id="outlined-multiline-flexible"
           label="Search shoes"
@@ -52,7 +54,7 @@ const Store = () => {
         />
         <Button onClick={productsSearchHandler} variant="contained">Search</Button>
       </Box>
-        <Box component="form" sx={{'& .MuiTextField-root': { m: 1, width: '35ch' }, border: '1px solid black', width: '80%'}}>
+        <Box component="div" sx={{'& .MuiTextField-root': { m: 1, width: '35ch' }, border: '1px solid black', borderRadius: '10px', width: '80%', display: isSmallScreen ? 'none' : ''}}>
         <Accordion>
         <AccordionSummary
           aria-controls="panel1a-content"
@@ -77,11 +79,11 @@ const Store = () => {
       </Accordion>
       </Box>
         </Grid>
-        <Grid item sm={12}>
+        <Grid item lg={7}>
         <div>
       {status === 'loading' ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress size="5rem" /></div> : <Grid container spacing={4}>
         {filteredProducts.length === 0 ? <Grid item sx={3}><h1>No Results Found</h1></Grid> : filteredProducts.length > 0 && filteredProducts.map((product) => (
-          <Grid item sm={12}>
+          <Grid item sm={3}>
             <MediaCard name={product.name} brand={product.brand} image={product.image} price={product.price} color={product.colorway} id={product._id}/>
           </Grid>
         ))}
